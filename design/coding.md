@@ -1,0 +1,32 @@
+# Coding & Tooling Guidelines/Principles and Misc Topics
+
+- Tooling
+  - docker container
+    - thin alpine container
+    - thick toolbox container
+    - setup .venv
+  - github codespaces
+  - VS code settings
+  - VS code extensions
+  - use of uv
+- Coding
+  - strict mode
+  - doc strings
+- Architectural
+  - .gitignore philosophy
+  - dependency philosophy
+    - industrial usage and maintenence
+    - worthwhile functionaly
+    - doesn't pull in the world
+    - ideally has type annotations
+    - quick package loading
+    - clean audit
+    - consider choosing versions that are already in docker images
+  - use of pydantic
+  - async first
+  - env vars philosophy
+- Process
+  - linear history - fast forward merge
+  - PR policy
+  - use of copilots
+- Our release philosphy allows us to make smaller variant that don't handle every case. We can do this because we can always walk away from the current variant and start a new one that handles more scenarios as we learn more.

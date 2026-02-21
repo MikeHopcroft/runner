@@ -4,6 +4,11 @@
 
 ## Single Turn Model/Agent Inference with Evaluation
 
+## Developing/Fixing an evaluator
+
+- Run inference once, run evaluator multiple times.
+- Similar scenario when developing formatters, comparers, etc.
+
 ## Multi Turn Model/Agent Inference with Evaluation
 
 ## Make a Knowledge Test Question based on a Citation

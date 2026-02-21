@@ -10,6 +10,9 @@
 - backoff and retry
 
 ## Explicit Error Handling
+- some errors are really part of the `journal`, rather than the log. For instance
+  - LLM was supposed to produce JSON, but it made something else and the evaluator parser raised an error.
+  - Correct LLM result surfaced a bug in the evaluator.
 
 ## Logging
 
@@ -33,6 +36,12 @@
 ## Clear Line Separating Runner Responsibilties from Experiment
 
 ## Structured Experiment File Algebra
+Some options. A ==> A' where
+* A' is just A, annotated with some new fields. This option is simple, but it bakes the workflow into the schema for A'. If you want to do a different workflow, you need a different A'. Formatters and analyzers are specialed to A'.
+* A' is a container like a tuple or dict that contains the input, A, and and output, B.
+* A' is the output, but it has a field that contains a reference to input A.
+* Two lists - immutable, sealed list of inputs. Immutable, but appendable list of outputs.
+* Do we rename and rewrite file once finished
 
 ## Convenience Functions
 These might be stable enough to go in a `runner.core` module that is shared by all of the `runner` variants.

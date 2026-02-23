@@ -163,6 +163,6 @@ type ProcessorFactory[CONFIG, INPUT: HasUUID, OUTPUT] = Callable[
 # type Processors[INPUT: HasUUID] = list[Processor[INPUT, Any]]
 
 type Runner[CONFIG, INPUT: HasUUID, OUTPUT] = Callable[
-    [CONFIG, Processor[INPUT, OUTPUT], AsyncGenerator[INPUT] | Generator[INPUT]],
+    [CONFIG, ProcessorFactory[CONFIG,INPUT, OUTPUT], AsyncGenerator[INPUT] | Generator[INPUT]],
     Awaitable[Journal[CONFIG, INPUT, OUTPUT]],
 ]

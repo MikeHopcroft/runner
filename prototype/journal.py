@@ -14,7 +14,7 @@ Design Goals
 from typing import Any, AsyncGenerator, Awaitable, Callable, Generator, Literal
 from uuid import UUID
 
-from pydantic import BaseModel, JsonValue
+from pydantic import BaseModel, Field, JsonValue
 
 
 class JournalGlobalMetadata(BaseModel):
@@ -166,3 +166,32 @@ type Runner[CONFIG, INPUT: HasUUID, OUTPUT] = Callable[
     [CONFIG, ProcessorFactory[CONFIG,INPUT, OUTPUT], AsyncGenerator[INPUT] | Generator[INPUT]],
     Awaitable[Journal[CONFIG, INPUT, OUTPUT]],
 ]
+
+class FormatterSpec(BaseModel):
+    before_case: Callable[[Console, dict[str, Any]], None] | None = Field(
+        default=None, description="Function to generate contents before each case"
+    )
+    after_case: Callable[[Console, dict[str, Any]], None] | None = Field(
+        default=None, description="Function to generate contents after each case"
+    )
+    format_turn: Callable[[Console, int, dict[str, Any]], None] | None = Field(
+        default=None, description="Function to generate contents for each turn"
+    )
+
+class PipelineSpec[CONFIG, INPUT: HasUUID, OUTPUT](BaseModel):
+    name: str = Field(..., min_length=1, description="Pipeline name")
+    description: str = Field(..., min_length=1, description="Pipeline description")
+    configuration: dict[str, Any] = Field(..., description="Pipeline configuration")
+    factory: ProcessorFactory[CONFIG, INPUT, OUTPUT] = Field(
+        ..., description="Factory function to create the processor")
+    formatter: FormatterSpec | Callable | None = Field(
+        default=None, description="Optional formatter spec or function"
+    )
+    passed_predicate: Callable[[dict[str, Any]], bool] = Field(
+        default=lambda result: False,
+        description="Function to determine if the summarization passed",
+    )
+    summarizer: SummarizerSpec | Callable | None = Field(
+        default=None, description="Optional summarizer spec or function"
+    )
+
